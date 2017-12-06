@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="copyright" content="&#xA9;Copyright IBM Corporation 2017">
+  <meta name="DC.Rights.Owner" content="&#xA9;Copyright IBM Corporation 2017">
+  <meta name="dcterms.rights" content="&#xA9; Copyright IBM Corporation {{ copyright.years }}">
+  <meta name="dcterms.date" content="{{ lastupdated }}">
+  <meta name="source.format" content="markdown">
+
+  <!-- Licensed Materials - Property of IBM -->
+  <!-- US Government Users Restricted Rights -->
+  <!-- Use, duplication or disclosure restricted by -->
+  <!-- GSA ADP Schedule Contract with IBM Corp. -->
+
+
+  <title>Patch LDAP/AD fix in your IBM&reg; Cloud Private version 2.1.0 HA cluster - readme file</title>
+</head>
+
+<body>
+  <main role="main">
+    <article aria-labelledby="patch-ldap-ad-fix-in-your-ibm-reg-cloud-private-version-2-1-0-ha-cluster-readme-file" role="article">
+
+      <h1 id="patch-ldap-ad-fix-in-your-ibm-reg-cloud-private-version-2-1-0-ha-cluster-readme-file">Patch LDAP/AD fix in your IBM&reg; Cloud Private version 2.1.0 HA cluster - readme file</h1>
+      <p><strong>Readme file for</strong>: Patch LDAP/AD fix for IBM&reg; Cloud Private clusters</p>
+      <p><strong>Product Release</strong>: 2.1.0</p>
+      <p><strong>Publication date</strong>: Nov 27, 2017</p>
+      <p><strong>Last modified date</strong>: Nov 24, 2017</p>
+      <h2 id="description">Description</h2>
+      <p>IBM&reg; Cloud Private is an application platform for developing and managing on-premises, containerized applications. It is an integrated environment for managing containers that includes the container orchestrator Kubernetes, a private image repository,
+        a management console, and monitoring frameworks.</p>
+      <h2 id="contents">Contents</h2>
+      <ol>
+        <li>Overview</li>
+        <li>Procedure</li>
+        <li>List of files</li>
+        <li>Copyright and trademark information</li>
+      </ol>
+      <h2 id="overview">Overview</h2>
+      <p>This patch fixes issues with integrating Microsoft Active Directory with IBM Cloud Private version 2.1.0.</p>
+      <p>The patch file performs the following steps:</p>
+      <ul>
+        <li>
+          <p>Back up the Authentication-related images.</p>
+        </li>
+        <li>
+          <p>Replace the Authentication-related images with new ones.</p>
+        </li>
+        <li>
+          <p>Re-create Authentication-related daemonsets to use new Authentication-related images.</p>
+        </li>
+      </ul>
+      <p><strong>Note</strong>: This patch is for Linux 64-bit clusters only.</p>
+      <h2 id="known-issue">Known issue</h2>
+      <p>For IBM Cloud Private 2.1.0 HA clusters, you will not be able to login using ldap user credentials after restarting the leading master.</p>
+      <p>To workaround this issue:</p>
+      <ol>
+        <li>Log into the console using the default user credentials admin/admin.</li>
+        <li>From the console, select Security &gt; LDAP connection &gt; Edit.</li>
+        <li>Click Save. </li>
+      </ol>
+      <h2 id="procedure">Procedure</h2>
+      <h3 id="apply-the-patch">Apply the patch</h3>
+      <ol>
+        <li>
+          <p>Place the patch file in the <code>patches</code> directory.</p>
+          <ul>
+            <li>Patch file name: <code>ibm-cloud-private-x86_64-2.1.0-4051.bin</code></li>
+            <li>Patch file directory: <code>/&lt;installation_dir&gt;/cluster/patches</code></li>
+          </ul>
+          <p>The installation directory structure resembles the following directory tree:</p>
+          <pre><code class="hljs">/&lt;installation_dir&gt;/cluster
+|-- cluster/config.yaml
+|-- cluster/hosts
+|-- cluster/patches
+|   `-- cluster/patches/ibm-cloud-private-x86_64-2.1.0-4051.bin
+`-- cluster/ssh_key
+</code></pre>
+        </li>
+        <li>
+          <p>Change to the installation directory.</p>
+          <pre><code class="hljs">cd /&lt;installation_dir&gt;/cluster
+</code></pre>
+        </li>
+        <li>
+          <p>Apply the patch.</p>
+          <p>From the <code>/&lt;installation_dir&gt;/cluster</code> directory, run the following command:</p>
+          <pre><code class="hljs">docker run -e LICENSE=accept -t -v $(pwd):/installer/cluster --net=host ibmcom/icp-inception:2.1.0-ee patch -v
+</code></pre>
+        </li>
+      </ol>
+      <h3 id="roll-back-the-patch">Roll back the patch</h3>
+      <p>If you need to roll back this patch, perform the following step:</p>
+      <p> From the <code>/&lt;installation_dir&gt;/cluster</code> directory, run the following command:</p>
+      <pre><code class="hljs">  docker run -e LICENSE=accept -e PATCH=rollback -t -v $(pwd):/installer/cluster --net=host ibmcom/icp-inception:2.1.0-ee patch -v
+</code></pre>
+      <h2 id="list-of-files">List of files</h2>
+      <p>Table 1. List of IBM Cloud Private 2.1.0 patch files</p>
+      <table border="1">
+        <tr>
+          <th>Description</th>
+          <th>File name<br></th>
+          <th>File extension<br></th>
+        </tr>
+        <tr>
+          <td>IBM Cloud Private 2.1.0 LDAP/AD patch file</td>
+          <td>ibm-cloud-private-x86_64-2.1.0-4051.bin</td>
+          <td>.bin</td>
+        </tr>
+        <tr>
+          <td>Patch LDAP/AD fix in your IBM&reg; Cloud Private version 2.1.0 HA cluster - readme file</td>
+          <td>ldap_patch_readme</td>
+          <td>.html</td>
+        </tr>
+      </table>
+      <h2 id="copyright-and-trademark-information">Copyright and trademark information</h2>
+      <p>© Copyright IBM Corporation 2017</p>
+      <p>U.S. Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.</p>
+      <p>IBM®, the IBM logo and ibm.com® are trademarks of International Business Machines Corp., registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks
+        is available on the Web at &quot;Copyright and trademark information&quot; at www.ibm.com/legal/copytrade.shtml.</p>
+    </article>
+  </main>
+</body>
+</html>
